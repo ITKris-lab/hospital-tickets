@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital de Collipulli - Sistema de Tickets</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #F5F5F5;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: #2E7D32;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        .nav-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .header p {
+            margin: 8px 0 0 0;
+            opacity: 0.9;
+        }
+        .form {
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 500;
+            color: #333;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #2E7D32;
+        }
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .radio-item input[type="radio"] {
+            width: auto;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #2E7D32;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        .btn:hover {
+            background: #1B5E20;
+        }
+        .info {
+            background: #E8F5E8;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: #2E7D32;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Hospital de Collipulli</h1>
+            <p>Sistema de Soporte de Tickets</p>
+        </div>
+        
+        <div class="form">
+            <h2>Acceso al Sistema</h2>
+            
+            <div class="form-group">
+                <label for="name">Nombre completo *</label>
+                <input type="text" id="name" placeholder="Ingresa tu nombre completo" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Correo electrónico *</label>
+                <input type="email" id="email" placeholder="tu.email@hospitalcollipulli.cl" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Tipo de Usuario</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="solicitante" name="role" value="solicitante" checked>
+                        <label for="solicitante">Solicitante</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="tecnico" name="role" value="tecnico">
+                        <label for="tecnico">Técnico</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="admin" name="role" value="admin">
+                        <label for="admin">Administrador</label>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="handleLogin()">Acceder al Sistema</button>
+            
+            <div class="info">
+                <strong>Información del Hospital:</strong><br>
+                📍 Av. Manuel Rodriguez #1671, Collipulli, Chile<br>
+                📞 Tel: 45-2-602066 anexo 454066 MINSAL<br>
+                🕒 Horario: 8:00 - 17:00 Lunes a Jueves
+                            8:00 - 16:00 Viernes
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const role = document.querySelector('input[name="role"]:checked').value;
+
+            if (!name || !email) {
+                alert('Por favor completa todos los campos obligatorios');
+                return;
+            }
+
+            // Simular login exitoso y mostrar dashboard
+            showDashboard(name, role);
+        }
+
+        function showDashboard(name, role) {
+            document.body.innerHTML = `
+                <div class="container">
+                    <div class="header">
+                        <button class="nav-button" onclick="location.reload()">🔄 Cerrar Sesión</button>
+                        <h1>🏥 Hospital de Collipulli</h1>
+                        <p>Bienvenido, ${name}</p>
+                    </div>
+                    
+                    <div class="form">
+                        <h2>Dashboard Principal</h2>
+                        
+                        <div class="info">
+                            <h3>👤 Información del Usuario</h3>
+                            <p><strong>Nombre:</strong> ${name}</p>
+                            <p><strong>Rol:</strong> ${getRoleDisplayName(role)}</p>
+                        </div>
+
+                        <div class="info">
+                            <h3>📊 Estadísticas de Tickets</h3>
+                            <div style="display: flex; justify-content: space-around; margin: 16px 0;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 24px; font-weight: bold; color: #2196F3;">12</div>
+                                    <div style="font-size: 12px;">Total Tickets</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 24px; font-weight: bold; color: #FF9800;">4</div>
+                                    <div style="font-size: 12px;">En Progreso</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 24px; font-weight: bold; color: #4CAF50;">8</div>
+                                    <div style="font-size: 12px;">Resueltos</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info">
+                            <h3>🎯 Acciones Rápidas</h3>
+                            <button class="btn" onclick="showCreateTicket()" style="margin-bottom: 8px;">➕ Crear Nuevo Ticket</button>
+                            <button class="btn" onclick="showTicketList()" style="margin-bottom: 8px;">📋 Ver Mis Tickets</button>
+                            <button class="btn" onclick="showProfile()" style="margin-bottom: 8px;">👤 Mi Perfil</button>
+                            ${role === 'admin' ? '<button class="btn" onclick="showAdmin()" style="margin-bottom: 8px;">⚙️ Administración</button>' : ''}
+                        </div>
+
+                        <button class="btn" onclick="location.reload()" style="background: #666;">🔄 Cerrar Sesión</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showCreateTicket() {
+            document.body.innerHTML = `
+                <div class="container">
+                    <div class="header">
+                        <button class="nav-button" onclick="showDashboard('Usuario', 'solicitante')">← Volver</button>
+                        <h1>🏥 Hospital de Collipulli</h1>
+                        <p>Crear Nuevo Ticket</p>
+                    </div>
+                    
+                    <div class="form">
+                        <h2>📝 Formulario de Ticket</h2>
+                        
+                        <div class="form-group">
+                            <label for="ticketTitle">Título del ticket *</label>
+                            <input type="text" id="ticketTitle" placeholder="Describe brevemente el problema" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ticketDescription">Descripción detallada *</label>
+                            <textarea id="ticketDescription" placeholder="Proporciona todos los detalles relevantes..." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; height: 100px; resize: vertical;"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ticketCategory">Categoría</label>
+                            <select id="ticketCategory">
+                                <option value="equipment">Equipos Médicos</option>
+                                <option value="it">Sistemas Informáticos</option>
+                                <option value="maintenance">Mantenimiento</option>
+                                <option value="cleaning">Limpieza</option>
+                                <option value="security">Seguridad</option>
+                                <option value="supplies">Insumos</option>
+                                <option value="transport">Transporte</option>
+                                <option value="emergency">Emergencia</option>
+                                <option value="other">Otros</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ticketPriority">Prioridad</label>
+                            <select id="ticketPriority">
+                                <option value="low">Baja</option>
+                                <option value="medium" selected>Media</option>
+                                <option value="high">Alta</option>
+                                <option value="critical">Crítica</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ticketLocation">Ubicación específica</label>
+                            <input type="text" id="ticketLocation" placeholder="Ej: Piso 2, Sala 201">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ticketEquipment">Equipo afectado</label>
+                            <input type="text" id="ticketEquipment" placeholder="Ej: Rayos X Digital, Computadora">
+                        </div>
+                        
+                        <button class="btn" onclick="createTicket()">✅ Crear Ticket</button>
+                        <button class="btn" onclick="showDashboard('Usuario', 'solicitante')" style="background: #666; margin-top: 8px;">← Volver al Dashboard</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createTicket() {
+            const title = document.getElementById('ticketTitle').value;
+            const description = document.getElementById('ticketDescription').value;
+            const category = document.getElementById('ticketCategory').value;
+            const priority = document.getElementById('ticketPriority').value;
+            const location = document.getElementById('ticketLocation').value;
+            const equipment = document.getElementById('ticketEquipment').value;
+
+            if (!title || !description) {
+                alert('Por favor completa el título y descripción');
+                return;
+            }
+
+            alert(`✅ Ticket creado exitosamente!\n\nTítulo: ${title}\nCategoría: ${category}\nPrioridad: ${priority}\n${location ? 'Ubicación: ' + location : ''}\n${equipment ? 'Equipo: ' + equipment : ''}`);
+            
+            showDashboard('Usuario', 'solicitante');
+        }
+
+        function showTicketList() {
+            // Generar HTML de tickets dinámicamente
+            let ticketsHTML = '';
+            tickets.forEach(ticket => {
+                const statusColor = ticket.status === 'Abierto' ? '#2196F3' : '#FF9800';
+                const priorityColor = ticket.priority === 'Alta' ? '#FF5722' : '#FF9800';
+                
+                ticketsHTML += `
+                    <div class="info" style="margin-bottom: 16px;">
+                        <h4>🎫 Ticket #${ticket.id} - ${ticket.title}</h4>
+                        <p><strong>Estado:</strong> <span style="color: ${statusColor};">${ticket.status}</span> | <strong>Prioridad:</strong> <span style="color: ${priorityColor};">${ticket.priority}</span></p>
+                        <p><strong>Ubicación:</strong> ${ticket.location}</p>
+                        <p><strong>Creado:</strong> ${ticket.created}</p>
+                        <button class="btn" onclick="showTicketDetails('${ticket.id}', '${ticket.title}', '${ticket.status}', '${ticket.priority}', '${ticket.location}', '${ticket.created}')" style="padding: 8px; font-size: 14px; margin-top: 8px;">Ver Detalles</button>
+                    </div>
+                `;
+            });
+
+            document.body.innerHTML = `
+                <div class="container">
+                    <div class="header">
+                        <button class="nav-button" onclick="showDashboard('Usuario', 'solicitante')">← Volver</button>
+                        <h1>🏥 Hospital de Collipulli</h1>
+                        <p>Mis Tickets</p>
+                    </div>
+                    
+                    <div class="form">
+                        <h2>📋 Lista de Tickets</h2>
+                        
+                        <div class="info" style="margin-bottom: 16px;">
+                            <h4>🔍 Buscar tickets</h4>
+                            <input type="text" placeholder="Buscar por título, descripción..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        
+                        ${ticketsHTML}
+                        
+                        <button class="btn" onclick="showDashboard('Usuario', 'solicitante')" style="background: #666;">← Volver al Dashboard</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showTicketDetails(id, title, status, priority, location, created) {
+            // Buscar el ticket en la lista
+            const ticket = tickets.find(t => t.id === id);
+            if (!ticket) {
+                alert('Ticket no encontrado');
+                return;
+            }
+
+            // Generar HTML de comentarios
+            let commentsHTML = '';
+            if (ticket.comments && ticket.comments.length > 0) {
+                ticket.comments.forEach(comment => {
+                    commentsHTML += `
+                        <div style="background: #f9f9f9; padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+                            <p><strong>${comment.author}:</strong> ${comment.content}</p>
+                            <p style="font-size: 12px; color: #666; margin: 4px 0 0 0;">${comment.time}</p>
+                        </div>
+                    `;
+                });
+            } else {
+                commentsHTML = '<p style="color: #666; font-style: italic;">No hay comentarios aún</p>';
+            }
+
+            document.body.innerHTML = `
+                <div class="container">
+                    <div class="header">
+                        <button class="nav-button" onclick="showTicketList()">← Volver</button>
+                        <h1>🏥 Hospital de Collipulli</h1>
+                        <p>Detalles del Ticket #${id}</p>
+                    </div>
+                    
+                    <div class="form">
+                        <h2>🎫 ${ticket.title}</h2>
+                        
+                        <div class="info">
+                            <h3>📋 Información del Ticket</h3>
+                            <p><strong>ID:</strong> #${ticket.id}</p>
+                            <p><strong>Estado:</strong> <span style="color: ${ticket.status === 'Abierto' ? '#2196F3' : '#FF9800'};">${ticket.status}</span></p>
+                            <p><strong>Prioridad:</strong> <span style="color: ${ticket.priority === 'Alta' ? '#FF5722' : '#FF9800'};">${ticket.priority}</span></p>
+                            <p><strong>Ubicación:</strong> ${ticket.location}</p>
+                            <p><strong>Creado:</strong> ${ticket.created}</p>
+                        </div>
+
+                        <div class="info">
+                            <h3>📝 Descripción</h3>
+                            <p>${ticket.description}</p>
+                        </div>
+
+                        <div class="info">
+                            <h3>💬 Comentarios</h3>
+                            ${commentsHTML}
+                        </div>
+
+                        <div class="info">
+                            <h3>➕ Agregar Comentario</h3>
+                            <textarea id="newComment" placeholder="Escribe tu comentario aquí..." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; height: 80px; resize: vertical; margin-bottom: 8px;"></textarea>
+                            <button class="btn" onclick="addComment()" style="padding: 8px; font-size: 14px;">Agregar Comentario</button>
+                        </div>
+                        
+                        <button class="btn" onclick="showTicketList()" style="background: #666;">← Volver a Tickets</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showProfile() {
+            document.body.innerHTML = `
+                <div class="container">
+                    <div class="header">
+                        <h1>🏥 Hospital de Collipulli</h1>
+                        <p>Mi Perfil</p>
+                    </div>
+                    
+                    <div class="form">
+                        <h2>👤 Información del Perfil</h2>
+                        
+                        <div class="info">
+                            <h3>📊 Estadísticas Personales</h3>
+                            <div style="display: flex; justify-content: space-around; margin: 16px 0;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 20px; font-weight: bold; color: #2196F3;">12</div>
+                                    <div style="font-size: 12px;">Tickets Creados</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 20px; font-weight: bold; color: #4CAF50;">8</div>
+                                    <div style="font-size: 12px;">Resueltos</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 20px; font-weight: bold; color: #FF9800;">4</div>
+                                    <div style="font-size: 12px;">En Progreso</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info">
+                            <h3>⚙️ Configuración</h3>
+                            <label style="display: flex; align-items: center; gap: 8px; margin: 8px 0;">
+                                <input type="checkbox" checked> Notificaciones
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; margin: 8px 0;">
+                                <input type="checkbox"> Modo Oscuro
+                            </label>
+                        </div>
+                        
+                        <button class="btn" onclick="showDashboard('Usuario', 'solicitante')" style="background: #666;">← Volver al Dashboard</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showAdmin() {
+            document.body.innerHTML = `
+                <div class="container">
+                    <div class="header">
+                        <h1>🏥 Hospital de Collipulli</h1>
+                        <p>Panel de Administración</p>
+                    </div>
+                    
+                    <div class="form">
+                        <h2>⚙️ Administración del Sistema</h2>
+                        
+                        <div class="info">
+                            <h3>📊 Estadísticas Generales</h3>
+                            <div style="display: flex; justify-content: space-around; margin: 16px 0;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 24px; font-weight: bold; color: #2196F3;">45</div>
+                                    <div style="font-size: 12px;">Total Tickets</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 24px; font-weight: bold; color: #4CAF50;">32</div>
+                                    <div style="font-size: 12px;">Usuarios</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 24px; font-weight: bold; color: #4CAF50;">28</div>
+                                    <div style="font-size: 12px;">Resueltos</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 24px; font-weight: bold; color: #FF9800;">17</div>
+                                    <div style="font-size: 12px;">Activos</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info">
+                            <h3>🎯 Acciones de Administración</h3>
+                            <button class="btn" onclick="showManageUsers()" style="margin-bottom: 8px;">👥 Gestionar Usuarios</button>
+                            <button class="btn" onclick="showReports()" style="margin-bottom: 8px;">📊 Ver Reportes</button>
+                            <button class="btn" onclick="showSystemConfig()" style="margin-bottom: 8px;">⚙️ Configuración del Sistema</button>
+                        </div>
+                        
+                        <button class="btn" onclick="showDashboard('Usuario', 'admin')" style="background: #666;">← Volver al Dashboard</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showManageUsers() {
+            document.body.innerHTML = `
+                <div class="container">
+                    <div class="header">
+                        <h1>🏥 Hospital de Collipulli</h1>
+                        <p>Gestión de Usuarios</p>
+                    </div>
+                    
+                    <div class="form">
+                        <h2>👥 Gestión de Usuarios</h2>
+                        
+                        <div class="info">
+                            <h3>📋 Lista de Usuarios</h3>
+                            <div style="margin-bottom: 16px;">
+                                <h4>👤 Dr. Juan Pérez</h4>
+                                <p><strong>Rol:</strong> Técnico | <strong>Email:</strong> juan.perez@hospitalcollipulli.cl</p>
+                                <p><strong>Último acceso:</strong> Hace 2 horas</p>
+                                <button class="btn" style="padding: 6px; font-size: 12px; margin-right: 8px;">Editar</button>
+                                <button class="btn" style="padding: 6px; font-size: 12px; background: #F44336;">Desactivar</button>
+                            </div>
+                            
+                            <div style="margin-bottom: 16px;">
+                                <h4>👤 María González</h4>
+                                <p><strong>Rol:</strong> Solicitante | <strong>Email:</strong> maria.gonzalez@hospitalcollipulli.cl</p>
+                                <p><strong>Último acceso:</strong> Hace 1 día</p>
+                                <button class="btn" style="padding: 6px; font-size: 12px; margin-right: 8px;">Editar</button>
+                                <button class="btn" style="padding: 6px; font-size: 12px; background: #F44336;">Desactivar</button>
+                            </div>
+                            
+                            <div style="margin-bottom: 16px;">
+                                <h4>👤 Carlos Rodríguez</h4>
+                                <p><strong>Rol:</strong> Solicitante | <strong>Email:</strong> carlos.rodriguez@hospitalcollipulli.cl</p>
+                                <p><strong>Último acceso:</strong> Hace 3 días</p>
+                                <button class="btn" style="padding: 6px; font-size: 12px; margin-right: 8px;">Editar</button>
+                                <button class="btn" style="padding: 6px; font-size: 12px; background: #F44336;">Desactivar</button>
+                            </div>
+                        </div>
+
+                        <div class="info">
+                            <h3>➕ Agregar Nuevo Usuario</h3>
+                            <input type="text" placeholder="Nombre completo" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 8px;">
+                            <input type="email" placeholder="Email" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 8px;">
+                            <select style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 8px;">
+                                <option value="solicitante">Solicitante</option>
+                                <option value="tecnico">Técnico</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                            <button class="btn" style="padding: 8px; font-size: 14px;">Agregar Usuario</button>
+                        </div>
+                        
+                        <button class="btn" onclick="showAdmin()" style="background: #666;">← Volver a Administración</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showReports() {
+            document.body.innerHTML = `
+                <div class="container">
+                    <div class="header">
+                        <h1>🏥 Hospital de Collipulli</h1>
+                        <p>Reportes del Sistema</p>
+                    </div>
+                    
+                    <div class="form">
+                        <h2>📊 Reportes y Estadísticas</h2>
+                        
+                        <div class="info">
+                            <h3>📈 Reporte de Tickets por Mes</h3>
+                            <div style="background: #f9f9f9; padding: 16px; border-radius: 8px; margin: 16px 0;">
+                                <p><strong>Enero:</strong> 15 tickets</p>
+                                <p><strong>Febrero:</strong> 23 tickets</p>
+                                <p><strong>Marzo:</strong> 18 tickets</p>
+                                <p><strong>Abril:</strong> 31 tickets</p>
+                                <p><strong>Mayo:</strong> 27 tickets</p>
+                            </div>
+                        </div>
+
+                        <div class="info">
+                            <h3>🏆 Técnicos Más Activos</h3>
+                            <div style="background: #f9f9f9; padding: 16px; border-radius: 8px; margin: 16px 0;">
+                                <p><strong>1. Juan Pérez:</strong> 28 tickets resueltos</p>
+                                <p><strong>2. Ana López:</strong> 22 tickets resueltos</p>
+                                <p><strong>3. Carlos Ruiz:</strong> 19 tickets resueltos</p>
+                            </div>
+                        </div>
+
+                        <div class="info">
+                            <h3>⏱️ Tiempo Promedio de Resolución</h3>
+                            <div style="background: #f9f9f9; padding: 16px; border-radius: 8px; margin: 16px 0;">
+                                <p><strong>Prioridad Baja:</strong> 3.2 días</p>
+                                <p><strong>Prioridad Media:</strong> 1.8 días</p>
+                                <p><strong>Prioridad Alta:</strong> 0.9 días</p>
+                                <p><strong>Prioridad Crítica:</strong> 0.3 días</p>
+                            </div>
+                        </div>
+
+                        <div class="info">
+                            <h3>📊 Categorías Más Solicitadas</h3>
+                            <div style="background: #f9f9f9; padding: 16px; border-radius: 8px; margin: 16px 0;">
+                                <p><strong>1. Equipos Médicos:</strong> 45%</p>
+                                <p><strong>2. Sistemas Informáticos:</strong> 25%</p>
+                                <p><strong>3. Mantenimiento:</strong> 15%</p>
+                                <p><strong>4. Limpieza:</strong> 10%</p>
+                                <p><strong>5. Otros:</strong> 5%</p>
+                            </div>
+                        </div>
+                        
+                        <button class="btn" onclick="showAdmin()" style="background: #666;">← Volver a Administración</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showSystemConfig() {
+            document.body.innerHTML = `
+                <div class="container">
+                    <div class="header">
+                        <h1>🏥 Hospital de Collipulli</h1>
+                        <p>Configuración del Sistema</p>
+                    </div>
+                    
+                    <div class="form">
+                        <h2>⚙️ Configuración del Sistema</h2>
+                        
+                        <div class="info">
+                            <h3>🏥 Información del Hospital</h3>
+                            <input type="text" placeholder="Nombre del Hospital" value="Hospital de Collipulli" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 8px;">
+                            <input type="text" placeholder="Dirección" value="Av. Principal 123, Collipulli, Chile" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 8px;">
+                            <input type="tel" placeholder="Teléfono" value="+56 9 1234 5678" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 8px;">
+                            <input type="tel" placeholder="Teléfono de Emergencias" value="131" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 8px;">
+                        </div>
+
+                        <div class="info">
+                            <h3>🔔 Configuración de Notificaciones</h3>
+                            <label style="display: flex; align-items: center; gap: 8px; margin: 8px 0;">
+                                <input type="checkbox" checked> Notificaciones por email
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; margin: 8px 0;">
+                                <input type="checkbox" checked> Notificaciones push
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; margin: 8px 0;">
+                                <input type="checkbox"> Recordatorios automáticos
+                            </label>
+                        </div>
+
+                        <div class="info">
+                            <h3>⏰ Configuración de Tiempos</h3>
+                            <input type="number" placeholder="Tiempo máximo para tickets críticos (horas)" value="2" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 8px;">
+                            <input type="number" placeholder="Tiempo máximo para tickets altos (horas)" value="8" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 8px;">
+                            <input type="number" placeholder="Tiempo máximo para tickets medios (horas)" value="24" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 8px;">
+                        </div>
+
+                        <div class="info">
+                            <h3>🔒 Configuración de Seguridad</h3>
+                            <label style="display: flex; align-items: center; gap: 8px; margin: 8px 0;">
+                                <input type="checkbox" checked> Requerir autenticación de dos factores
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; margin: 8px 0;">
+                                <input type="checkbox"> Bloquear después de 3 intentos fallidos
+                            </label>
+                            <input type="number" placeholder="Sesión expira después de (minutos)" value="60" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 8px;">
+                        </div>
+
+                        <button class="btn" style="margin-bottom: 8px;">💾 Guardar Configuración</button>
+                        <button class="btn" onclick="showAdmin()" style="background: #666;">← Volver a Administración</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getRoleDisplayName(role) {
+            const roles = {
+                'admin': 'Administrador',
+                'tecnico': 'Técnico',
+                'solicitante': 'Solicitante'
+            };
+            return roles[role] || 'Usuario';
+        }
+
+        // Variables globales para almacenar datos
+        let tickets = [
+            {
+                id: '001',
+                title: 'Equipo de Rayos X no funciona',
+                description: 'El equipo de rayos X en el área de radiología no está funcionando correctamente. Se observa que la pantalla no enciende y no se puede realizar ningún estudio. Es urgente ya que hay pacientes esperando.',
+                status: 'Abierto',
+                priority: 'Alta',
+                location: 'Piso 2, Sala 201',
+                created: 'Hace 2 horas',
+                comments: [
+                    {
+                        author: 'Juan Pérez (Técnico)',
+                        content: 'He revisado el equipo y confirmo el problema. Parece ser un fallo en la fuente de alimentación.',
+                        time: 'Hace 1 hora'
+                    },
+                    {
+                        author: 'María González (Admin)',
+                        content: 'Se ha contactado con el proveedor. Llegarán mañana con la pieza de repuesto.',
+                        time: 'Hace 30 minutos'
+                    }
+                ]
+            },
+            {
+                id: '002',
+                title: 'Solicitud de limpieza urgente',
+                description: 'Se requiere limpieza profunda en la sala de emergencias',
+                status: 'En Progreso',
+                priority: 'Media',
+                location: 'Piso 1, Sala de Emergencias',
+                created: 'Hace 4 horas',
+                comments: []
+            }
+        ];
+
+        function addComment() {
+            const commentText = document.getElementById('newComment').value;
+            if (!commentText.trim()) {
+                alert('Por favor escribe un comentario');
+                return;
+            }
+
+            // Agregar comentario al primer ticket (simulación)
+            tickets[0].comments.push({
+                author: 'Usuario Actual',
+                content: commentText,
+                time: 'Ahora'
+            });
+
+            // Limpiar el textarea
+            document.getElementById('newComment').value = '';
+
+            // Mostrar mensaje de éxito
+            alert('✅ Comentario agregado exitosamente');
+
+            // Refrescar la vista de detalles
+            showTicketDetails('001', 'Equipo de Rayos X no funciona', 'Abierto', 'Alta', 'Piso 2, Sala 201', 'Hace 2 horas');
+        }
+
+        function createTicket() {
+            const title = document.getElementById('ticketTitle').value;
+            const description = document.getElementById('ticketDescription').value;
+            const category = document.getElementById('ticketCategory').value;
+            const priority = document.getElementById('ticketPriority').value;
+            const location = document.getElementById('ticketLocation').value;
+            const equipment = document.getElementById('ticketEquipment').value;
+
+            if (!title.trim() || !description.trim()) {
+                alert('Por favor completa el título y descripción');
+                return;
+            }
+
+            // Crear nuevo ticket
+            const newTicket = {
+                id: String(tickets.length + 1).padStart(3, '0'),
+                title: title,
+                description: description,
+                status: 'Abierto',
+                priority: priority,
+                location: location || 'No especificada',
+                created: 'Ahora',
+                comments: []
+            };
+
+            // Agregar a la lista de tickets
+            tickets.push(newTicket);
+
+            alert(`✅ Ticket #${newTicket.id} creado exitosamente!\n\nTítulo: ${title}\nCategoría: ${category}\nPrioridad: ${priority}\n${location ? 'Ubicación: ' + location : ''}\n${equipment ? 'Equipo: ' + equipment : ''}`);
+            
+            showDashboard('Usuario', 'solicitante');
+        }
+    </script>
+</body>
+</html>
