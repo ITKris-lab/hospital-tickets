@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "Hospital Tickets",
+    "slug": "hospital-tickets",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "description": "Sistema de gestión de tickets de soporte para el área TIC.",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#2E7D32"
+      }
+    },
+    "web": {
+      "bundler": "webpack"
+    },
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8b3797cb-646a-4ad2-b3bb-307a4090689a"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/8b3797cb-646a-4ad2-b3bb-307a4090689a"
+    }
+  }
+}
