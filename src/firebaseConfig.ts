@@ -3,15 +3,15 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// Tu configuración de Firebase
+// Tu configuración de Firebase, ahora leyendo desde variables de entorno
 const firebaseConfig = {
-  apiKey: "AIzaSyCusPu3N7L3GWxqkTFbQBqIC46zMiktwCU",
-  authDomain: "hospital-tickets-web.firebaseapp.com",
-  projectId: "hospital-tickets-web",
-  storageBucket: "hospital-tickets-web.appspot.com",
-  messagingSenderId: "41601518181",
-  appId: "1:41601518181:web:621c9e907094dab3d8948c",
-  measurementId: "G-2CK2EFYGFE"
+  apiKey: process.env.EXPO_PUBLIC_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_APP_ID,
+  measurementId: process.env.EXPO_PUBLIC_MEASUREMENT_ID
 };
 
 // Inicializar Firebase
